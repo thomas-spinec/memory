@@ -1,6 +1,5 @@
 <?php
-session_start();
-// Création des class
+// Création de la classe
 
 class User {
     /* Propriétés */
