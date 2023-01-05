@@ -6,7 +6,6 @@ class User {
     private $id;
     private $login;
     private $password;
-    private $email;
     private $firstname;
     private $lastname;
     private $bdd;
@@ -15,10 +14,18 @@ class User {
     public function __construct() 
     {
         // connection à la BDD avec PDO
+        // en local ////////////////////
         $servername = 'localhost';
-        $dbname = 'classes';
+        $dbname = 'memory';
         $db_username = 'root';
         $db_password = '';
+
+        // en ligne ///////////////////
+        // $servername = 'localhost';
+        // $dbname = 'thomas-spinec_memory';
+        // $db_username = 'adminbdd';
+        // $db_password = 'basededonnees';
+
 
         // essaie de connexion
         try {
@@ -41,7 +48,6 @@ class User {
             $this->id = $_SESSION['user']['id'];
             $this->login = $_SESSION['user']['login'];
             $this->password = $_SESSION['user']['password'];
-            $this->email = $_SESSION['user']['email'];
             $this->firstname = $_SESSION['user']['firstname'];
             $this->lastname = $_SESSION['user']['lastname'];
         }
@@ -49,9 +55,9 @@ class User {
 
     /* Méthodes */
         // Enregistrement
-    public function register($login, $password, $password2, $email, $firstname, $lastname)
+    public function register($login, $password, $password2, $firstname, $lastname)
     {
-        if($login !== "" && $password !== "" && $password2 !== "" && $email !=="" && $firstname !=="" && $lastname !=="" ){
+        if($login !== "" && $password !== "" && $password2 !== "" && $firstname !=="" && $lastname !=="" ){
             // requête
             $requete = "SELECT * FROM utilisateurs where login = :login";
 
@@ -72,7 +78,7 @@ class User {
                     $password = password_hash($password, PASSWORD_DEFAULT);
     
                     // requête pour ajouter l'utilisateur dans la base de données
-                    $requete2 = "INSERT INTO utilisateurs (login, password, email, firstname, lastname) VALUES (:login, :password, :email, :firstname, :lastname)";
+                    $requete2 = "INSERT INTO utilisateurs (login, password, firstname, lastname) VALUES (:login, :password, :firstname, :lastname)";
     
                     // préparation de la requête
                     $insert = $this->bdd -> prepare($requete2);
@@ -81,12 +87,13 @@ class User {
                     $insert-> execute(array(
                         ':login' => $login,
                         ':password' => $password,
-                        ':email' => $email,
                         ':firstname' => $firstname,
                         ':lastname' => $lastname));
     
-                    $error = "Inscription réussie";
-                    return $error; // inscription réussie
+                    echo "Inscription réussie"; // inscription réussie
+
+                    // redirection vers la page de connexion
+                    header('Refresh: 3; URL="connexion.php"');
                 }
                 else{
                     $error = "Les mots de passe ne correspondent pas";
@@ -99,7 +106,7 @@ class User {
             }
         }
         else{
-            $error = "Tous les champs ne sont pas renseignés, il faut le login, le mot de passe, l'email, le prénom et le nom";
+            $error = "Tous les champs ne sont pas renseignés, il faut le login, le mot de passe, le prénom et le nom";
             return $error; // utilisateur ou mot de passe vide
         }
         // fermer la connexion
@@ -135,8 +142,7 @@ class User {
                         // récupération des données pour les attribuer aux attributs
                         $this->id = $fetch_assoc['id'];
                         $this->login = $fetch_assoc['login'];
-                        $this->password = $fetch_assoc['password'];
-                        $this->email = $fetch_assoc['email']; 
+                        $this->password = $fetch_assoc['password']; 
                         $this->firstname = $fetch_assoc['firstname'];
                         $this->lastname = $fetch_assoc['lastname'];
 
@@ -144,11 +150,11 @@ class User {
                             'id' => $fetch_assoc['id'],
                             'login' => $fetch_assoc['login'],
                             'password' => $fetch_assoc['password'],
-                            'email' => $fetch_assoc['email'],
                             'firstname' => $fetch_assoc['firstname'],
                             'lastname' => $fetch_assoc['lastname']
                         ];
-                        return $error; // connexion réussie
+                        // connexion réussie
+                        header('Location: index.php');
                     }
                     else{
                         $error = "Mot de passe incorrect";
@@ -187,10 +193,8 @@ class User {
             $this->lastname = null;
 
             // détruire la session
+            session_unset();
             session_destroy();
-
-            $error = "Déconnexion réussie";
-            return $error; // déconnexion réussie
         }
         else{
             $error = "Vous n'êtes pas connecté";
@@ -223,12 +227,12 @@ class User {
     }
 
         // Modification
-    public function update($login, $password, $email, $firstname, $lastname)
+    public function update($login, $password, $firstname, $lastname)
     {
         //vérification que la personne est connecté
         if($this->isConnected()){
             //vérification que les champs ne sont pas vides
-            if($login !== "" && $password !== "" && $email !=="" && $firstname !=="" && $lastname !=="" ){
+            if($login !== "" && $password !== "" && $firstname !=="" && $lastname !=="" ){
 
                 $password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -250,21 +254,19 @@ class User {
                         'id' => $this->id,
                         'login' => $login,
                         'password' => $password,
-                        'email' => $email,
                         'firstname' => $firstname,
                         'lastname' => $lastname
                     ];
 
                     // requête pour modifier l'utilisateur dans la base de données
-                    $requete2 = "UPDATE utilisateurs SET login = :login, password = :password, email = :email, firstname = :firstname, lastname = :lastname WHERE id = :id";
+                    $requete2 = "UPDATE utilisateurs SET login = :login, password = :password, firstname = :firstname, lastname = :lastname WHERE id = :id";
                     // préparation de la requête
                     $update = $this->bdd->prepare($requete2);
                     // exécution de la requête avec liaison des paramètres
                     $update-> execute(array(
                         ':id' => $this->id,
                         ':login' => $login, 
-                        ':password' => $password, 
-                        ':email' => $email, 
+                        ':password' => $password,
                         ':firstname' => $firstname, 
                         ':lastname' => $lastname));
 
@@ -277,7 +279,7 @@ class User {
                 }
             }
             else{
-                $error = "Tous les champs ne sont pas renseignés, il faut le login, le mot de passe, l'email, le prénom et le nom";
+                $error = "Tous les champs ne sont pas renseignés, il faut le login, le mot de passe, le prénom et le nom";
                 return $error; // utilisateur ou mot de passe vide
             }
         }
@@ -290,7 +292,7 @@ class User {
         // Vérification de la connexion
     public function isConnected()
     {
-        if($this->id !== null && $this->login !== null && $this->password !== null && $this->email !== null && $this->firstname !== null && $this->lastname !== null){
+        if($this->id !== null && $this->login !== null && $this->password !== null && $this->firstname !== null && $this->lastname !== null){
             return true; // utilisateur connecté
         }
         else{
@@ -334,26 +336,10 @@ class User {
     {
         //vérification que la personne est connecté
         if($this->isConnected()){
-            ?>
-            <p><strong>Votre login est: </strong><?= $this->login; ?></p>
-            <?php
+            return $this->login;
         }
         else{
             echo "Vous n'êtes pas connecté, vous devez être connecté pour voir le login du compte";
-        }
-    }
-
-        // Récupération de l'email
-    public function getEmail()
-    {
-        //vérification que la personne est connecté
-        if($this->isConnected()){
-            ?>
-            <p><strong>Votre email est: </strong><?= $this->email; ?></p>
-            <?php
-        }
-        else{
-            echo "Vous n'êtes pas connecté, vous devez être connecté pour voir l'email du compte";
         }
     }
 

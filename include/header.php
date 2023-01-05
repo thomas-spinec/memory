@@ -1,6 +1,7 @@
 <!-- Partie PHP -->
 <?php
-
+    require './class/User.php';
+    $player = new User();
 ?>
 <!-- header des pages -->
 <!DOCTYPE html>
@@ -10,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="site.css">
-    <title>Réservation de salles</title>
+    <title>Memory</title>
 </head>
 
 <body>
@@ -24,13 +25,12 @@
                     // test si l'utilisateur est connecté
                     if (isset($_GET['deconnexion'])){
                         if($_GET['deconnexion']==true){
-                            session_unset();
-                            session_destroy();
+                            $player->disconnect();
                             header('Location: index.php');
                         }
                     }
-                    else if(isset($_SESSION['login'])){
-                        $user = $_SESSION['login'];
+                    else if($player->isConnected()){
+                        $user = $player->getLogin();
                 ?>
                 <div class='center'>
                     <h3>Bonjour <?=$user?></h3>

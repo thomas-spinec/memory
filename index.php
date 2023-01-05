@@ -1,6 +1,6 @@
     <!-- header des pages -->
     <?php
-        require 'class/User.php';
+        session_start();
         require 'include/header.php';
     ?>
 
