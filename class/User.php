@@ -43,7 +43,7 @@ class User {
         }
 
 
-        // Vérification de la connexion
+        // Vérification de la connexion (profil)
         if (isset($_SESSION['user'])){
             $this->id = $_SESSION['user']['id'];
             $this->login = $_SESSION['user']['login'];
@@ -311,7 +311,6 @@ class User {
                 <thead>
                     <tr>
                         <th>login</th>
-                        <th>email</th>
                         <th>firstname</th>
                         <th>lastname</th>
                     </tr>
@@ -319,7 +318,6 @@ class User {
                 <tbody>
                     <tr>
                         <td><?= $this->login; ?></td>
-                        <td><?= $this->email; ?></td>
                         <td><?= $this->firstname; ?></td>
                         <td><?= $this->lastname; ?></td>
                     </tr>

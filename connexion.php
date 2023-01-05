@@ -2,6 +2,10 @@
     <?php
         session_start();
         require 'include/header.php';
+        // verif s'il y a une connexion
+        if($player->isConnected()){
+            header('Location: index.php');
+        }
     ?>
 
     <!-- contenu de la page -->
