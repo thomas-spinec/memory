@@ -7,6 +7,7 @@
     for ($i=0; isset($_SESSION['deck'][$i]); $i++){
         if(isset($_POST[$i])){
             $plateau->choice($_SESSION['deck'][$i]);
+            break;
         }
     }
 

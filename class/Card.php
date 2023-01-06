@@ -37,10 +37,20 @@
             $this->Card12 = "./img/12";
             // Tableau contenant toutes les cartes
             $this->AllCard = array($this->Card1, $this->Card2, $this->Card3, $this->Card4, $this->Card5, $this->Card6, $this->Card7, $this->Card8, $this->Card9, $this->Card10, $this->Card11, $this->Card12);
-
-            $this->choice1 = $_SESSION['choice1'];
-            $this->choice2 = $_SESSION['choice2'];
-            // Tableau contenant les cartes choisies
+            // variable contenant les cartes retournées
+            if(isset($_SESSION['choice1'])){
+                $this->choice1 = $_SESSION['choice1'];
+            }
+            else{
+                $this->choice1 = "";
+            }
+            if(isset($_SESSION['choice2'])){
+                $this->choice2 = $_SESSION['choice2'];
+            }
+            else{
+                $this->choice2 = "";
+            }
+            // Tableau contenant les cartes choisies/trouvées
             if(isset($_SESSION['find'])){
                 $this->find = $_SESSION['find'];
             }
@@ -62,8 +72,9 @@
             // initialisation du tableau de cartes
             $this->getCarte();
             // initialisation du tableau de cartes choisies
-            $this->choice1= '';
-            $this->choice2= '';
+            $_SESSION['find']=[];
+            $_SESSION['choice1'] = "";
+            $_SESSION['choice2'] = "";
         }
 
         // affichage de l'avant de la carte
@@ -140,28 +151,40 @@
         // stockage des cartes choisies
         public function choice($id){
             if($this->choice1 == ''){
-                $_SESSION['choice1']= $id;
+                $_SESSION['choice1'] = $id;
                 $this->choice1 = $id;
             }
             else{
-                $_SESSION['choice2']= $id;
+                $_SESSION['choice2'] = $id;
                 $this->choice2 = $id;
-                $this->checkChoice();
             }
         }
 
         // vérification des cartes choisies
         public function checkChoice(){
-            $this->choice1 = str_replace("bis", "", $this->choice1);
-            $this->choice2 = str_replace("bis", "", $this->choice2);
-            if($this->choice1 == $this->choice2){
-                $this->find[] = $this->choice1;
-                $this->choice1 = '';
-                $this->choice2 = '';
+            $carte1 = str_replace("bis", "", $this->choice1);
+            $carte2 = str_replace("bis", "", $this->choice2);
+            if($carte1 == $carte2){
+
+                $_SESSION['find'][] = $this->choice1;
+                $_SESSION['find'][] = $this->choice2;
+                $_SESSION['choice1'] = '';
+                $_SESSION['choice2'] = '';
             }
             else{
-                $this->choice1 = '';
-                $this->choice2 = '';
+                $_SESSION['choice1'] = '';
+                $_SESSION['choice2'] = '';
+            }
+            $this->addTour();
+        }
+
+        // vérification de la fin de partie
+        public function checkEnd(){
+            if(count($this->find) == $this->getNbCarte()){
+                return true;
+            }
+            else{
+                return false;
             }
         }
     }

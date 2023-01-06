@@ -4,51 +4,57 @@
         require 'include/header.php';
         require 'class/Card.php' ;
         $plateau = new Card();
-        $user = new User();
-        $paire = $_SESSION['nb_paires'];
-        if($_SESSION['player']=="anonyme"){
-            // verif si le compte "anonyme" a déjà été créé
-            if(!$user->isUserExist($_SESSION['player'])){
-                $user->createAnonyme();
-            }
-            else{
-                $user->connectAnonyme();
-            }
-            $plateau -> init();
-            $_SESSION['find']=[];
-            $_SESSION['choice1'] = "";
-            $_SESSION['choice2'] = "";
-            $_SESSION['player'] = "ano";
+        if(isset($_POST['reset'])){
+            $plateau->init();
+            header('Location: jeu.php');
         }
-        elseif($_SESSION['player']== "NewGame"){
-            $plateau -> init();
-            $_SESSION['find']=[];
-            $_SESSION['choice1'] = "";
-            $_SESSION['choice2'] = "";
-            $_SESSION['player'] = "Game";
+        // vérification des cartes choisies
+        if($_SESSION['choice2'] != ""){
+            $plateau->checkChoice();
+            header('Refresh: 1; URL=jeu.php');
         }
     ?>
 
     <!-- contenu de la page -->
     <main>
+        <!-- Partie qui ira dans le header des pages -->
+        <?php
+            $user = new User();
+            $paire = $_SESSION['nb_paires'];
+            if($_SESSION['player']=="anonyme"){
+                // verif si le compte "anonyme" a déjà été créé
+                if(!$user->isUserExist($_SESSION['player'])){
+                    $user->createAnonyme();
+                }
+                else{
+                    $user->connectAnonyme();
+                }
+            }
+            elseif($_SESSION['player']== "NewGame" OR $_SESSION['player']=="anonyme"){
+                $_SESSION['player'] = "Game";
+                $plateau -> init();
+            }
+            ?>
+        <!-- fin partie header -->
         <div class="container">
             <div id="plateau">
                 <H2>Memory</H2>
                 <p>Nombre de paires: <?= $_SESSION['nb_paires']; ?> </p>
-                <?php $plateau->displayTour();
-                var_dump($_SESSION['deck']);
-                ?>
-                <form action="verif_jeu.php" method="post">
-                <?php
-                for ($i=0; $i < $plateau->getNbCarte(); $i++) {
-                    $plateau->displayPlateau($i);
-                }
-                ?>
+                <?php $plateau->displayTour();?>
+                <form action="verif_jeu.php" method="post" id="form_plateau">
+                    <?php
+                    for ($i=0; $i < $plateau->getNbCarte(); $i++) {
+                        $plateau->displayPlateau($i);
+                    }
+                    ?>
                 </form>
-
-                <?php
-
-                ?>
             </div>
+            <form action="" method="post" id="reset">
+                <input type="submit" name="reset" value="Reset">
+            </form>
+            <?php
+                var_dump($_SESSION['deck']);
+                var_dump($_SESSION['find']);
+            ?>
         </div>
     </main>

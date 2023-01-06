@@ -459,213 +459,98 @@ form input[type="submit"]:hover {
 }
 
 /* *****************
-    page admin
-****************** */
-table,
-th,
-td {
-  padding: 10px;
-  border: 1px solid #7d7d7d;
-  border-collapse: collapse;
-  font-size: 1rem;
-  border-radius: 10px;
-}
-
-table {
-  margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-#table_admin {
-  background-color: #fafafa;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #7d7d7d;
-  width: 50%;
-  margin: auto;
-  padding-top: 1%;
-  padding-bottom: 1%;
-  padding-left: 0.5%;
-}
-
-/* *****************
-    Morpion
+    Formulaire jeu memory
 ****************** */
 
-#title_morpion {
-  text-align: center;
-}
-
-.container_morpion {
-  width: 40%;
+#form_plateau {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  /* align-items: center; */
   margin: auto;
-  padding: auto;
 }
 
-#table_morpion {
-  border: solid;
+.carte {
+  display: flex;
+  max-height: 200px;
+  width: 16%;
+  /* min-width: 30%; */
+  justify-content: center;
+  /* min-height: 100px; */
+  margin-top: 2%;
 }
 
-#table_morpion td {
-  width: 100px;
-  height: 100px;
-  /* border: solid; */
+.carte > img {
+  max-height: 200px;
+  width: auto;
+  /* max-width: 50%;
+  min-width: 30%; */
+  /* min-height: 100px; */
 }
 
-#table_morpion img {
-  width: 100%;
-  height: auto;
+.carte > button {
+  max-height: 200px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
-.morpion {
-  font-size: 1rem;
+.carte button img {
+  max-height: 200px;
+  /* min-height: 100px; */
 }
 
-/* *****************
-    livre d'or
-****************** */
-
-.commentaires tbody,
-.commentaires thead {
-  display: block;
-}
-
-.commentaires tbody {
-  height: 40vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.commentaires {
-  width: 60%;
+#reset {
   margin: auto;
-  border: 1px solid #7d7d7d;
-  background-color: #fafafa;
-  /* border-radius: 15px; */
-  box-shadow: 0 0 10px #7d7d7d;
+  margin-top: 2%;
+  width: 10%;
+  justify-content: center;
 }
 
-.commentaires th {
-  border-bottom: #1363df;
-  border-bottom-style: solid;
-  border-bottom-width: 1.5px;
-  border-left: none;
-  border-right: none;
-}
-
-.commentaires td {
-  padding: 20px;
-  border-bottom: #1363df;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-left: none;
-  border-right: none;
-}
-
-.date {
-  width: 15%;
-}
-
-.user {
-  width: 15%;
-}
-
-.comm {
-  width: 70%;
-}
-
-/* *****************
-    Planning
-****************** */
-
-.week {
-  width: 40px;
-  height: auto;
-  transition: 0.5s;
-}
-
-.week:hover {
-  opacity: 0.5;
-}
-
-.booked {
-  background-color: #47b5ff;
-  transition: 0.5s;
-}
-
-.booked:hover {
-  opacity: 0.8;
-}
-
-.booked a {
-  color: #fff;
-  font-weight: bold;
-}
-
-.planning {
-  width: 80%;
-  height: 80%;
-  margin: auto;
-  padding: 20px;
-  background-color: #fafafa;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #7d7d7d;
-  overflow-x: auto;
-}
-
-.weekend {
-  background-color: #ff0000a6;
-  color: #fff;
-  font-weight: bold;
-}
-
-/* media ///// */
-
-@media all and (max-width: 1024px) {
-  .container {
-    width: 95%;
+/* Media */
+@media all and (max-width: 500px) {
+  .carte {
+    width: 50%;
   }
-  .planning {
-    width: 100%;
-    display: block;
-    overflow: auto;
-    white-space: nowrap;
+  .carte > img {
+    max-height: 100px;
+  }
+  .carte > button {
+    max-height: 100px;
+  }
+  .carte button img {
+    max-height: 100px;
   }
 }
 
-/* *****************
-    Formulaire de resa
-****************** */
-
-.form_resa {
-  width: 60%;
-  margin: auto;
-  padding: 20px;
-  background-color: #fafafa;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #7d7d7d;
+@media all and (min-width: 501px) and (max-width: 768px) {
+  .carte {
+    width: 33%;
+  }
+  .carte > img {
+    max-height: 150px;
+  }
+  .carte > button {
+    max-height: 150px;
+  }
+  .carte button img {
+    max-height: 150px;
+  }
 }
 
-#reserv label {
-  font-weight: bold;
-  font-size: 1rem !important;
-  margin-top: 1%;
-}
-
-#reserv input {
-  font-size: 1.1rem !important;
-  margin-bottom: 1%;
-}
-
-#reserv select {
-  font-size: 1rem !important;
-  margin-bottom: 1%;
-}
-
-#reserv input[type="submit"] {
-  font-size: 1rem !important;
-  width: 20%;
-  padding: 1%;
-  margin: auto;
-  margin-top: 1%;
+@media all and (min-width: 769px) and (max-width: 1060px) {
+  .carte {
+    width: 25%;
+  }
+  .carte > img {
+    max-height: 150px;
+  }
+  .carte > button {
+    max-height: 150px;
+  }
+  .carte button img {
+    max-height: 150px;
+  }
 }

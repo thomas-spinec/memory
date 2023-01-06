@@ -14,11 +14,15 @@
                     <div class="background_form">
                         <h1>Bienvenue dans le jeu du Memory</h1>
                         <p>Vous devez trouver toutes les paires de cartes pour gagner.</p>
-                        <p>Vous devez être connecté pour enregistrer votre score, ou bien jouer anonymement</p>
+                        <p>Vous devez être connecté pour enregistrer votre score, sinon vous pouvez également jouer anonymement</p>
                         <p>Si vous voulez jouer anonymement, vous pouvez cliquer sur le bouton correspondant après avoir choisi le nombre de paires</p>
                         <form action="" method="post">
                             <input type="submit" name="conn" value="Connexion" id="double">
+                        </form>
+                        <form action="" method="post">
                             <input type="submit" name="insc" value="Inscription" id="double">
+                        </form>
+                        <form action="" method="post">
                             <label for="nb_paires">Nombre de paires</label>
                             <select name="nb_paires" id="">
                                 <option value=3 selected>3</option>
@@ -36,8 +40,25 @@
                     </div>
                 </div>
                 <?php
+                    // envoie vers la page de jeu si le formulaire est rempli
+                    if(!empty($_POST)){
+                        if(isset($_POST['conn'])){
+                            header('Location: connexion.php');
+                        }
+                        elseif(isset($_POST['insc'])){
+                            header('Location: inscription.php');
+                        }
+                        elseif(isset($_POST['ano'])){
+                            $_SESSION['player'] = "anonyme";
+                        }
+                        else{
+                            $_SESSION['player'] = "NewGame";
+                        }
+                        $_SESSION['nb_paires'] = $_POST['nb_paires'];
+                        header('Location: jeu.php');
+                    }
             }
-            else{
+            else{ // déjà connecté
                 ?>
                 <div class="container">
                     <div class="background_form">
@@ -60,20 +81,15 @@
                             </select>
                             <input type="submit" value="Jouer">
                         </form>
-
                 <?php
-            }
                     // envoie vers la page de jeu si le formulaire est rempli
                     if(!empty($_POST)){
                         $_SESSION['nb_paires'] = $_POST['nb_paires'];
-                        if(isset($_POST['ano'])){
-                            $_SESSION['player'] = "anonyme";
-                        }
-                        else{
-                            $_SESSION['player'] = "NewGame";
-                        }
+                        $_SESSION['player'] = "NewGame";
                         header('Location: jeu.php');
                     }
+                
+            }
                 ?>
 
 
