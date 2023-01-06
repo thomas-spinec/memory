@@ -52,5 +52,28 @@
             <?php
         }
 
+        // tour +1
+        public function addTour(){
+            if(isset($_SESSION['tour'])){
+                $_SESSION['tour'] = 1;
+            }
+            else{
+                $_SESSION['tour']++;
+            }
+        }
+
+        // affichage du nombre de tours
+        public function displayTour(){
+            ?>
+                <p>Nombre de tours : <?= $_SESSION['tour'] ?></p>
+            <?php
+        }
+
+        // réinitialisation nbre tour
+        public function resetTour(){
+            unset($_SESSION['tour']);
+        }
+
+
 
     }

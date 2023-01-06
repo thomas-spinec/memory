@@ -58,19 +58,7 @@ class User {
     public function register($login, $password, $password2, $firstname, $lastname)
     {
         if($login !== "" && $password !== "" && $password2 !== "" && $firstname !=="" && $lastname !=="" ){
-            // requête
-            $requete = "SELECT * FROM utilisateurs where login = :login";
-
-            // préparation de la requête
-            $select = $this->bdd->prepare($requete);
-
-            // exécution de la requête avec liaison des paramètres
-            $select-> execute(array(':login' => $login));
-
-            // récupération du tableau
-            $fetch_all = $select->fetchAll();
-
-            if(count($fetch_all) === 0){ // si = 0 --> utilisateur disponible
+            if($this->isUserExist($login)){ // si true --> utilisateur disponible
 
                 // vérification des mots de passe
                 if($password === $password2){
@@ -367,6 +355,60 @@ class User {
         else{
             echo "Vous n'êtes pas connecté, vous devez être connecté pour voir le nom du compte";
         }
+    }
+
+        // Utilisateur déjà existant?
+    public function isUserExist($login)
+    {
+        // requête pour vérifier que le login choisi n'est pas déjà utilisé
+        $requete = "SELECT * FROM utilisateurs where login = :login";
+
+        // préparation de la requête
+        $select = $this->bdd->prepare($requete);
+
+        // exécution de la requête avec liaison des paramètres
+        $select-> execute(array(':login' => $login));
+
+        // récupération du tableau
+        $fetch_all = $select->fetchAll();
+
+        if(count($fetch_all) === 0){ // login disponible
+            return false; // login disponible
+        }
+        else{
+            return true; // login indisponible
+        }
+    }
+
+        // Création utilisateur anonyme
+    public function createAnonyme(){
+        // requête pour créer un utilisateur anonyme
+        $requete = "INSERT INTO utilisateurs (login, password, firstname, lastname) VALUES (:login, :password, :firstname, :lastname)";
+
+        // préparation de la requête
+        $insert = $this->bdd->prepare($requete);
+
+        // hachage du mot de passe
+        $password_A = password_hash('anonyme', PASSWORD_DEFAULT);
+
+        // exécution de la requête avec liaison des paramètres
+        $insert-> execute(array(
+            ':login' => 'anonyme', 
+            ':password' => $password_A,
+            ':firstname' => 'anonyme', 
+            ':lastname' => 'anonyme'));
+
+        // appel de la fonction de connexion anonyme
+        $this->connectAnonyme();
+    }
+
+        // connexion anonyme
+    public function connectAnonyme(){
+        $login_A = 'anonyme';
+        $password_A = 'anonyme';
+
+        // connexion
+        $this->connect($login_A, $password_A);
     }
 
 }
