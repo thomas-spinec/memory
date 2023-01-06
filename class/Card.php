@@ -2,64 +2,88 @@
 
     class Card{
             /* Propriétés */
+        private $AllCard;
+        private $Card1;
+        private $Card2;
+        private $Card3;
+        private $Card4;
+        private $Card5;
+        private $Card6;
+        private $Card7;
+        private $Card8;
+        private $Card9;
+        private $Card10;
+        private $Card11;
+        private $Card12;
+        private $Deck;
+        private $find;
+        private $choice1;
+        private $choice2;
 
         /* Constructeur */
-        // public function __construct() 
-        // {
-        //     // connection à la BDD avec PDO
-        //     // en local ////////////////////
-        //     $servername = 'localhost';
-        //     $dbname = 'memory';
-        //     $db_username = 'root';
-        //     $db_password = '';
+        public function __construct() 
+        {
+            $this->Card1 = "./img/1";
+            $this->Card2 = "./img/2";
+            $this->Card3 = "./img/3";
+            $this->Card4 = "./img/4";
+            $this->Card5 = "./img/5";
+            $this->Card6 = "./img/6";
+            $this->Card7 = "./img/7";
+            $this->Card8 = "./img/8";
+            $this->Card9 = "./img/9";
+            $this->Card10 = "./img/10";
+            $this->Card11 = "./img/11";
+            $this->Card12 = "./img/12";
+            // Tableau contenant toutes les cartes
+            $this->AllCard = array($this->Card1, $this->Card2, $this->Card3, $this->Card4, $this->Card5, $this->Card6, $this->Card7, $this->Card8, $this->Card9, $this->Card10, $this->Card11, $this->Card12);
 
-        //     // en ligne ///////////////////
-        //     // $servername = 'localhost';
-        //     // $dbname = 'thomas-spinec_memory';
-        //     // $db_username = 'adminbdd';
-        //     // $db_password = 'basededonnees';
+            $this->choice1 = $_SESSION['choice1'];
+            $this->choice2 = $_SESSION['choice2'];
+            // Tableau contenant les cartes choisies
+            if(isset($_SESSION['find'])){
+                $this->find = $_SESSION['find'];
+            }
+            else{
+                $this->find = [];
+            }
+            if(isset($_SESSION['deck'])){
+                $this->Deck = $_SESSION['deck'];
+            }
 
-
-        //     // essaie de connexion
-        //     try {
-        //         $this->bdd = new PDO("mysql:host=$servername;dbname=$dbname; charset=utf8", $db_username, $db_password);
-
-        //         // On définit le mode d'erreur de PDO sur Exception
-        //         $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //         //echo "Connexion réussie"; 
-        //     } 
-        //     // si erreur, on capture les exceptions, s'il y en a une on affiche les infos
-        //     catch(PDOException $e)
-        //     {
-        //         echo "Echec de la connexion : " . $e->getMessage();
-        //         exit;
-        //     }
-        // }
+        }
 
         /* Méthodes */
 
+        // initialisation
+        public function init(){
+            // initialisation du nombre de tours
+            $this->resetTour();
+            // initialisation du tableau de cartes
+            $this->getCarte();
+            // initialisation du tableau de cartes choisies
+            $this->choice1= '';
+            $this->choice2= '';
+        }
+
         // affichage de l'avant de la carte
         public function displayFront($id){
+            $TrueImg=str_replace("bis", "", $id)
             ?>
-                <img src="img/<?= $id ?>" alt="carte">
+                <img src="<?= $TrueImg ?>.png" alt="carte">
             <?php
         }
 
         // affichage de l'arrière de la carte
-        public function displayBack(){
+        public function displayBack($id){
             ?>
-                <img src="img/back.png" alt="carte">
+                <button type="submit" name="<?= $id ?>"><img src="./img/back.png" alt="dos de carte"></button>
             <?php
         }
 
         // tour +1
         public function addTour(){
-            if(isset($_SESSION['tour'])){
-                $_SESSION['tour'] = 1;
-            }
-            else{
-                $_SESSION['tour']++;
-            }
+            $_SESSION['tour']++;
         }
 
         // affichage du nombre de tours
@@ -72,8 +96,72 @@
         // réinitialisation nbre tour
         public function resetTour(){
             unset($_SESSION['tour']);
+            $_SESSION['tour'] = 1;
         }
 
+        // récupération du nombre de carte
+        public function getNbCarte(){
+            $NbCarte = $_SESSION['nb_paires']*2;
+            return $NbCarte;
+        }
 
+        // récupération des cartes voulue
+        public function getCarte(){
+            $rand_keys = array_rand($this->AllCard, $_SESSION['nb_paires']);
+            // Récupération des cartes
+            for ($i=0; isset($rand_keys[$i]); $i++) { 
+                $deck[] = $this->AllCard[$rand_keys[$i]];
+                $deck[] = $this->AllCard[$rand_keys[$i]]."bis";
+            }
 
+            // Mélange du deck
+            shuffle($deck);
+
+            $_SESSION['deck']=$deck;
+            $this->Deck = $deck;
+        }
+
+        // affichage du plateau
+        public function displayPlateau($i){
+            ?>
+                <div class="carte">
+                    <?php
+                        if($this->Deck[$i] == $this->choice1 || $this->Deck[$i] == $this->choice2 || in_array($this->Deck[$i], $this->find)){
+                            $this->displayFront($this->Deck[$i]);
+                        }
+                        else{
+                            $this->displayBack($i);
+                        }
+                    ?>
+                </div>
+            <?php
+        }
+
+        // stockage des cartes choisies
+        public function choice($id){
+            if($this->choice1 == ''){
+                $_SESSION['choice1']= $id;
+                $this->choice1 = $id;
+            }
+            else{
+                $_SESSION['choice2']= $id;
+                $this->choice2 = $id;
+                $this->checkChoice();
+            }
+        }
+
+        // vérification des cartes choisies
+        public function checkChoice(){
+            $this->choice1 = str_replace("bis", "", $this->choice1);
+            $this->choice2 = str_replace("bis", "", $this->choice2);
+            if($this->choice1 == $this->choice2){
+                $this->find[] = $this->choice1;
+                $this->choice1 = '';
+                $this->choice2 = '';
+            }
+            else{
+                $this->choice1 = '';
+                $this->choice2 = '';
+            }
+        }
     }

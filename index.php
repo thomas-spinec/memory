@@ -69,6 +69,9 @@
                         if(isset($_POST['ano'])){
                             $_SESSION['player'] = "anonyme";
                         }
+                        else{
+                            $_SESSION['player'] = "NewGame";
+                        }
                         header('Location: jeu.php');
                     }
                 ?>
