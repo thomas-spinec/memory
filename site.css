@@ -165,7 +165,7 @@ header button:hover {
     Media queries nav bar
 ********************************* */
 
-@media all and (max-width: 940px) {
+@media all and (max-width: 1010px) {
   .ordi {
     display: none;
   }
@@ -472,7 +472,7 @@ form input[type="submit"]:hover {
 
 .carte {
   display: flex;
-  max-height: 200px;
+  max-height: 250px;
   width: 16%;
   /* min-width: 30%; */
   justify-content: center;
@@ -481,7 +481,7 @@ form input[type="submit"]:hover {
 }
 
 .carte > img {
-  max-height: 200px;
+  max-height: 250px;
   width: auto;
   /* max-width: 50%;
   min-width: 30%; */
@@ -489,7 +489,7 @@ form input[type="submit"]:hover {
 }
 
 .carte > button {
-  max-height: 200px;
+  max-height: 250px;
   padding: 0;
   margin: 0;
   border: none;
@@ -498,7 +498,7 @@ form input[type="submit"]:hover {
 }
 
 .carte button img {
-  max-height: 200px;
+  max-height: 250px;
   /* min-height: 100px; */
 }
 
@@ -540,17 +540,17 @@ form input[type="submit"]:hover {
   }
 }
 
-@media all and (min-width: 769px) and (max-width: 1060px) {
+@media all and (min-width: 769px) and (max-width: 1360px) {
   .carte {
     width: 25%;
   }
   .carte > img {
-    max-height: 150px;
+    max-height: 200px;
   }
   .carte > button {
-    max-height: 150px;
+    max-height: 200px;
   }
   .carte button img {
-    max-height: 150px;
+    max-height: 200px;
   }
 }
