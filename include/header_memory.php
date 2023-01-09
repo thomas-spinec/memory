@@ -2,6 +2,32 @@
 <?php
     require './class/User.php';
     $player = new User();
+    require 'class/Board.php';
+    $plateau = new Board();
+    // vérification si le joueur a cliqué sur le bouton reset
+    if (isset($_GET['reset'])){
+        if($_GET['reset'] == true){
+            $plateau->init();
+            header('Location: jeu.php');
+        }
+    }
+    // Partie USER et initialisation
+    $paire = $_SESSION['nb_paires'];
+    // Contrôle de l'affichage en fonction du nombre de carte
+
+    if($_SESSION['player']=="anonyme"){
+        // verif si le compte "anonyme" a déjà été créé
+        if(!$player->isUserExist($_SESSION['player'])){
+            $player->createAnonyme();
+        }
+        else{
+            $player->connectAnonyme();
+        }
+    }
+    elseif($_SESSION['player']== "NewGame" OR $_SESSION['player']=="anonyme"){
+        $_SESSION['player'] = "Game";
+        $plateau -> init();
+    }
 ?>
 <!-- header des pages -->
 <!DOCTYPE html>
@@ -15,11 +41,11 @@
 </head>
 
 <body>
-    <header>
+    <header id="header_jeu">
         <div class="container">
             <div class="flex">
                 <div id="left">
-                    <h3>Memory</h3>
+                    <?php $plateau->displayTour();?>
                 </div>
                 <?php
                     // test si l'utilisateur est connecté
@@ -36,14 +62,13 @@
                 /////////////////  CONNECTE  ////////////////////////////
                 ////////////////////////////////////////////////////////// -->
                 <div class='center'>
-                    <h3>Bonjour <?=$user?></h3>
-                    <a href='index.php?deconnexion=true'><button>Déconnexion</button></a>
+                    <h3>Bonne chance <?=$user?></h3>
+
+                    <a class="ordi" href='index.php?reset=true'><button>Reset</button></a>
                 </div>
                 <nav class="ordi">
                     <ul>
-                        <li><a href='index.php'><button>Accueil</button></a></li>
-                        <li><a href='profil.php'><button>Profil</button></a></li>
-                        <li><a href='classement.php'><button>Classement</button></a></li>
+                        <li><a class='a_head' href='index.php'>Abandonner</a></li>
                     </ul>
                 </nav>
                 <!-- pour mobile -->
@@ -55,13 +80,10 @@
                         </a>
                         <ul id="menu_burger">
                             <li>
-                                <a href='index.php'><button>Accueil</button></a>
+                                <a href='index.php'><button>Abandonner</button></a>
                             </li>
                             <li>
-                                <a href='profil.php'><button>Profil</button></a>
-                            </li>
-                            <li>
-                                <a href='classement.php'><button>Classement</button></a>
+                                <a href='index.php?reset=true'><button>Reset</button></a>
                             </li>
                         </ul>
                     </li>
@@ -74,7 +96,7 @@
                 <!-- //////////////////////////////////////////////////////////
                 /////////////////  DECONNECTE  ///////////////////////////////
                 ////////////////////////////////////////////////////////// -->
-                <div class="center">
+                <!-- <div class="center">
                     <a href='connexion.php'><button>Connexion</button></a>
                     <a href='inscription.php'><button>Inscription</button></a>
                 </div>
@@ -83,7 +105,7 @@
                         <li><a class='a_head' href='index.php'>Accueil</a></li>
                         <li><a class='a_head' href='classement.php'>Classement</a></li>
                     </ul>
-                </nav>
+                </nav> -->
 
                 <?php
                     }

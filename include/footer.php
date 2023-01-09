@@ -4,7 +4,7 @@
     <div class="container">
         <div class="flex_footer">
             <div>
-                <p>Memory</p>
+                <h2>Memory</h2>
             </div>
 
             <div class='logo'>

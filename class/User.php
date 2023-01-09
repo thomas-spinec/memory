@@ -295,12 +295,12 @@ class User {
         if($this->isConnected()){
             //affichage
             ?>
-            <table>
+            <table class="infos">
                 <thead>
                     <tr>
-                        <th>login</th>
-                        <th>firstname</th>
-                        <th>lastname</th>
+                        <th>Login</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -309,6 +309,7 @@ class User {
                         <td><?= $this->firstname; ?></td>
                         <td><?= $this->lastname; ?></td>
                     </tr>
+                </tbody>
             </table>
             <?php
         }
@@ -411,6 +412,110 @@ class User {
         $this->connect($login_A, $password_A);
     }
 
+        // Enregistrement du score
+    public function saveScore()
+    {
+        // requête pour enregistrer le score
+        $requete = "INSERT INTO scores (paires, coups, id_utilisateur) VALUES (:paires, :coups, :id_utilisateur)";
+
+        // préparation de la requête
+        $insert = $this->bdd->prepare($requete);
+
+        // exécution de la requête avec liaison des paramètres
+        $insert-> execute(array(
+            ':paires' => $_SESSION['nb_paires'], 
+            ':coups' => $_SESSION['tour'],
+            ':id_utilisateur' => $this->id));
+    }
+
+        // Récupération des scores de l'utilisateur connecté
+    public function getScores()
+    {
+        // requête pour récupérer les scores de l'utilisateur connecté rangé de la plus grande paire à la plus petite
+        $requete = "SELECT * FROM scores where id_utilisateur = :id_utilisateur AND paires = :paires ORDER BY paires DESC";
+
+        // préparation de la requête
+        $select = $this->bdd->prepare($requete);
+
+        // exécution de la requête avec liaison des paramètres
+        $select-> execute(array(
+            ':id_utilisateur' => $this->id,
+            ':paires' => $_GET['nb_paires']));
+
+        // récupération du tableau dans un assoc
+        $fetch_all = $select->fetchAll(PDO::FETCH_ASSOC);
+
+        // affichage
+
+        ?>
+        <table class="infos">
+            <thead>
+                <tr>
+                    <th>Nombre de paires</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach($fetch_all as $table){
+                    $score = $table['paires']/$table['coups'];
+                    ?>
+                    <tr>
+                        <td><?= $table['paires']; ?></td>
+                        <td><?= $score ?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </tbody>
+        </table>
+        <?php
+
+    }
+
+        // récupération des 10 meilleurs scores en fonction du nombre de paires
+    public function getBestScores()
+    {
+        // requete
+        $requete = "SELECT * FROM scores INNER JOIN utilisateurs ON scores.id_utilisateur = utilisateurs.id WHERE paires = :paires ORDER BY coups LIMIT 10";
+
+        // préparation de la requête
+        $select = $this->bdd->prepare($requete);
+        
+        // exécution de la requête avec liaison des paramètres
+        $select-> execute(array(':paires' => $_GET['nb_paires']));
+
+        // récupération du tableau dans un assoc
+        $fetch_all = $select->fetchAll(PDO::FETCH_ASSOC);
+
+        // affichage
+        
+        ?>
+        <table class="infos">
+            <thead>
+                <tr>
+                    <th>Login</th>
+                    <th>Nombre de paires</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach($fetch_all as $table){
+                    $score = $table['coups']/$table['paires'];
+                    ?>
+                    <tr>
+                        <td><?= $table['login']; ?></td>
+                        <td><?= $table['paires']; ?></td>
+                        <td><?= $score ?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </tbody>
+        </table>
+        <?php
+    }
 }
 
 ?>

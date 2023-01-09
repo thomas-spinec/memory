@@ -8,6 +8,8 @@
         private $choice1;
         private $choice2;
         private $find;
+        private $height;
+        private $width;
 
         /* Constructeur */
         public function __construct($id) 
@@ -35,6 +37,30 @@
             else{
                 $this->find = [];
             }
+
+        if($_SESSION['nb_paires'] <= 5){
+            $this->height = 240;
+            $this->width = 170;
+        }
+        elseif ($_SESSION['nb_paires'] == 6){
+            $this->height = 250;
+            $this->width = 160;
+        }
+        //Si la $_SESSION plateau comprend 7 cartes ou moins
+        elseif($_SESSION['nb_paires'] <= 8){
+            $this->height = 210;
+            $this->width = 140;
+        }
+        //Si la $_SESSION plateau comprend plus de 7 cartes
+        elseif($_SESSION['nb_paires'] > 8){
+            $this->height = 200;
+            $this->width = 145;
+        }
+        //Si la $_SESSION plateau comprend plus de 9 cartes
+        elseif($_SESSION['nb_paires'] > 9){
+            $this->height = 200;
+            $this->width = 110;
+        }
         }
 
         /* Méthodes */
@@ -43,14 +69,14 @@
         public function displayFront(){
             $TrueImg=str_replace("bis", "", $this->Card)
             ?>
-                <img src="<?= $TrueImg ?>" alt="carte">
+                <img src="<?= $TrueImg ?>" alt="carte" height="<?= $this->height ?>" width="<?= $this->width?>">
             <?php
         }
 
         // affichage de l'arrière de la carte
         public function displayBack(){
             ?>
-                <button type="submit" name="<?= $this->id?>" value="<?= $this->name ?>"><img src="./img/back.png" alt="dos de carte"></button>
+                <button type="submit" name="<?= $this->id?>" value="<?= $this->name ?>"><img src="./img/back.png" alt="dos de carte" height="<?= $this->height ?>" width="<?= $this->width?>" ></button>
             <?php
         }
 

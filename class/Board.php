@@ -124,7 +124,9 @@
             if($carte1 == $carte2){
 
                 $_SESSION['find'][] = $this->choice1;
+                $this->find[] = $this->choice1;
                 $_SESSION['find'][] = $this->choice2;
+                $this->find[] = $this->choice2;
                 $_SESSION['choice1'] = '';
                 $_SESSION['choice2'] = '';
             }
@@ -132,7 +134,10 @@
                 $_SESSION['choice1'] = '';
                 $_SESSION['choice2'] = '';
             }
-            $this->addTour();
+            if($this->checkEnd() == false){
+                $this->addTour();
+                header('Refresh: 1; URL=jeu.php');
+            }
         }
 
         // vérification de la fin de partie
