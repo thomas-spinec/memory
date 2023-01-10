@@ -32,4 +32,12 @@
                     }
                     $player->getBestScores();
                 ?>
+            </div>
         </div>
+    </div>
+</main>
+
+<!-- footer des pages -->
+<?php
+    require 'include/footer.php';
+?>
