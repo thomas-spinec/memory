@@ -13,7 +13,7 @@
                 </div>
                 <div class="link">
                     <a href="https://thomas-spinec.students-laplateforme.io/"
-                      ><img src="img/computer.png" alt="Lien vers le site"
+                      ><img src="img/computer.png" alt="Lien vers plesk"
                     /></a>
                 </div>
             </div>

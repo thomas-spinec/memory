@@ -74,6 +74,14 @@ header {
   z-index: 1000 !important;
 }
 
+.container_header {
+  width: 80%;
+  height: auto;
+  margin: auto;
+  margin-top: 10px;
+  padding: auto;
+}
+
 header#header_jeu {
   background: linear-gradient(#0f0f0fd5, #202020c0, #0f0f0fd5);
   color: #fff;

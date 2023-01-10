@@ -50,12 +50,9 @@
                         }
                         elseif(isset($_POST['ano'])){
                             $_SESSION['player'] = "anonyme";
+                            $_SESSION['nb_paires'] = $_POST['nb_paires'];
+                            header('Location: jeu.php');
                         }
-                        else{
-                            $_SESSION['player'] = "NewGame";
-                        }
-                        $_SESSION['nb_paires'] = $_POST['nb_paires'];
-                        header('Location: jeu.php');
                     }
             }
             else{ // déjà connecté

@@ -72,9 +72,15 @@
             // initialisation du tableau de cartes
             $this->getCarte();
             // initialisation du tableau de cartes choisies
+            unset($_SESSION['find']);
             $_SESSION['find']=[];
+            // initialisation des cartes choisies
+            unset($_SESSION['choice1']);
             $_SESSION['choice1'] = "";
+            $this->choice1 = "";
+            unset($_SESSION['choice2']);
             $_SESSION['choice2'] = "";
+            $this->choice2 = "";
         }
 
         // tour +1

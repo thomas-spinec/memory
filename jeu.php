@@ -40,6 +40,11 @@
                 <H2>Partie terminée!</H2>
                 <h3>Votre score*: <?= $score ?></h3>
                 <p>*Score = nombre paires (<?=$_SESSION['nb_paires']?>)/nombre coups (<?=$_SESSION['tour']?>)</p>
+                <!-- réinitialisation variable de jeu -->
+                <?php
+                    $_SESSION['player']== "NewGame";
+                    $plateau->init();
+                ?>
                 <ul>
                     <li><a class="a_fin" href="profil.php">Profil</a></li>
                     <li><a class="a_fin" href="classement.php">Les meilleurs</a></li>
@@ -49,10 +54,6 @@
             </div>
             <?php
                 }
-            ?>
-            <?php
-                var_dump($_SESSION['deck']);
-                var_dump($_SESSION['find']);
             ?>
         </div>
     </main>

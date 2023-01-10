@@ -28,6 +28,7 @@
                         ?>
                         <p><?= $player->connect($_POST['login'], $_POST['password']); ?></p>
                         <?php
+                        header('Location: index.php');
                     }
                 ?>
             </div>

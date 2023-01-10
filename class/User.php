@@ -142,7 +142,6 @@ class User {
                             'lastname' => $fetch_assoc['lastname']
                         ];
                         // connexion réussie
-                        header('Location: index.php');
                     }
                     else{
                         $error = "Mot de passe incorrect";
@@ -502,7 +501,7 @@ class User {
             <tbody>
                 <?php
                 foreach($fetch_all as $table){
-                    $score = $table['coups']/$table['paires'];
+                    $score = $table['paires']/$table['coups'];
                     ?>
                     <tr>
                         <td><?= $table['login']; ?></td>

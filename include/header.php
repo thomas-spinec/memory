@@ -16,10 +16,10 @@
 
 <body>
     <header>
-        <div class="container">
+        <div class="container_header">
             <div class="flex">
                 <div id="left">
-                    <h3>Memory</h3>
+                    <h2>Memory</h2>
                 </div>
                 <?php
                     // test si l'utilisateur est connecté
@@ -80,8 +80,8 @@
                 </div>
                 <nav>
                     <ul>
-                        <li><a class='a_head' href='index.php'>Accueil</a></li>
-                        <li><a class='a_head' href='classement.php'>Classement</a></li>
+                        <li><a href='index.php'><button>Accueil</button></a></li>
+                        <li><a href='classement.php'><button>Classement</button></a></li>
                     </ul>
                 </nav>
 

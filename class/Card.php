@@ -85,6 +85,14 @@
             ?>
             <div class="carte">
                 <?php
+                    if ($_SESSION['nb_paires'] <= 6){
+                        for($i=0; $i<4; $i++){
+                            ?>
+                            <p> </p>
+                            <?php
+                        }
+                    }
+
                     if($this->isFind()){
                         $this->displayFront();
                     }

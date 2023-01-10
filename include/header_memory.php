@@ -24,7 +24,7 @@
             $player->connectAnonyme();
         }
     }
-    elseif($_SESSION['player']== "NewGame" OR $_SESSION['player']=="anonyme"){
+    if($_SESSION['player']== "NewGame" OR $_SESSION['player']=="anonyme"){
         $_SESSION['player'] = "Game";
         $plateau -> init();
     }
@@ -37,6 +37,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="site.css">
+    <?php if ($_SESSION['nb_paires'] <= 6){?>
+        <style>
+            .carte{
+                margin-top: 15vh;
+            }
+        </style>
+    <?php } ?>
     <title>Memory</title>
 </head>
 
@@ -88,24 +95,6 @@
                         </ul>
                     </li>
                 </ul>
-
-                <?php
-                    }
-                    else{
-                ?>
-                <!-- //////////////////////////////////////////////////////////
-                /////////////////  DECONNECTE  ///////////////////////////////
-                ////////////////////////////////////////////////////////// -->
-                <!-- <div class="center">
-                    <a href='connexion.php'><button>Connexion</button></a>
-                    <a href='inscription.php'><button>Inscription</button></a>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a class='a_head' href='index.php'>Accueil</a></li>
-                        <li><a class='a_head' href='classement.php'>Classement</a></li>
-                    </ul>
-                </nav> -->
 
                 <?php
                     }
