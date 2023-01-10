@@ -58,7 +58,7 @@ class User {
     public function register($login, $password, $password2, $firstname, $lastname)
     {
         if($login !== "" && $password !== "" && $password2 !== "" && $firstname !=="" && $lastname !=="" ){
-            if($this->isUserExist($login)){ // si true --> utilisateur disponible
+            if(!$this->isUserExist($login)){ // si false --> utilisateur disponible
 
                 // vérification des mots de passe
                 if($password === $password2){
@@ -406,6 +406,7 @@ class User {
     public function connectAnonyme(){
         $login_A = 'anonyme';
         $password_A = 'anonyme';
+        $_SESSION['anonyme']=true;
 
         // connexion
         $this->connect($login_A, $password_A);

@@ -24,6 +24,9 @@
             $player->connectAnonyme();
         }
     }
+    elseif($_SESSION['player']== "NewGame"){
+        $_SESSION['anonyme'] = false;
+    }
     if($_SESSION['player']== "NewGame" OR $_SESSION['player']=="anonyme"){
         $_SESSION['player'] = "Game";
         $plateau -> init();

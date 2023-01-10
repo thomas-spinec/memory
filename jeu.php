@@ -46,7 +46,15 @@
                     $plateau->init();
                 ?>
                 <ul>
-                    <li><a class="a_fin" href="profil.php">Profil</a></li>
+                    <?php 
+                        if(isset($_SESSION['anonyme'])){
+                            if($_SESSION['anonyme'] == false){
+                                ?>
+                                <li><a class="a_fin" href="profil.php">Profil</a></li>
+                                <?php
+                            }
+                        }
+                    ?>
                     <li><a class="a_fin" href="classement.php">Les meilleurs</a></li>
                     <li><a class="a_fin" href="index.php">Accueil</a></li>
                 </ul>

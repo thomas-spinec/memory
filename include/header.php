@@ -22,14 +22,21 @@
                     <h2>Memory</h2>
                 </div>
                 <?php
-                    // test si l'utilisateur est connecté
+                    // test si l'utilisateur a cliqué sur déconnexion
                     if (isset($_GET['deconnexion'])){
                         if($_GET['deconnexion']==true){
                             $player->disconnect();
                             header('Location: index.php');
                         }
                     }
-                    else if($player->isConnected()){
+                    // test si l'utilisateur a joué en anonyme
+                    if(isset($_SESSION['anonyme'])){
+                        if($_SESSION['anonyme']==true){
+                            $player->disconnect();
+                        }
+                    }
+                    // test si l'utilisateur est connecté
+                    if($player->isConnected()){
                         $user = $player->getLogin();
                 ?>
                 <!-- //////////////////////////////////////////////////////////
