@@ -74,7 +74,7 @@
                 <div class='center'>
                     <h3>Bonne chance <?=$user?></h3>
 
-                    <a class="ordi" href='index.php?reset=true'><button>Reset</button></a>
+                    <a class="ordi" href='jeu.php?reset=true'><button>Reset</button></a>
                 </div>
                 <nav class="ordi">
                     <ul>
@@ -93,7 +93,7 @@
                                 <a href='index.php'><button>Abandonner</button></a>
                             </li>
                             <li>
-                                <a href='index.php?reset=true'><button>Reset</button></a>
+                                <a href='jeu.php?reset=true'><button>Reset</button></a>
                             </li>
                         </ul>
                     </li>

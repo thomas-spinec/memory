@@ -2,9 +2,9 @@
 
     class Card{
             /* Propriétés */
-        private $id;
+        public $id;
         public $name;
-        private $Card;
+        public $Card;
         private $choice1;
         private $choice2;
         private $find;
@@ -19,16 +19,24 @@
             $this->name = "carte".$this->id;
             // variable contenant les cartes retournées
             if(isset($_SESSION['choice1'])){
-                $this->choice1 = $_SESSION['choice1'];
+                $this->choice1['id'] = $_SESSION['choice1']['id'];
+                $this->choice1['Card'] = $_SESSION['choice1']['Card'];
             }
             else{
-                $this->choice1 = "";
+                $this->choice1 = [
+                    'id' => '',
+                    'Card' => ''
+                ];
             }
             if(isset($_SESSION['choice2'])){
-                $this->choice2 = $_SESSION['choice2'];
+                $this->choice2['id'] = $_SESSION['choice2']['id'];
+                $this->choice2['Card'] = $_SESSION['choice2']['Card'];
             }
             else{
-                $this->choice2 = "";
+                $this->choice2 = [
+                    'id' => '',
+                    'Card' => ''
+                ];
             }
             // Tableau contenant les cartes choisies/trouvées
             if(isset($_SESSION['find'])){
@@ -38,29 +46,29 @@
                 $this->find = [];
             }
 
-        if($_SESSION['nb_paires'] <= 5){
-            $this->height = 240;
-            $this->width = 170;
-        }
-        elseif ($_SESSION['nb_paires'] == 6){
-            $this->height = 250;
-            $this->width = 160;
-        }
-        //Si la $_SESSION plateau comprend 7 cartes ou moins
-        elseif($_SESSION['nb_paires'] <= 8){
-            $this->height = 210;
-            $this->width = 140;
-        }
-        //Si la $_SESSION plateau comprend plus de 7 cartes
-        elseif($_SESSION['nb_paires'] > 8){
-            $this->height = 200;
-            $this->width = 145;
-        }
-        //Si la $_SESSION plateau comprend plus de 9 cartes
-        elseif($_SESSION['nb_paires'] > 9){
-            $this->height = 200;
-            $this->width = 110;
-        }
+            if($_SESSION['nb_paires'] <= 5){
+                $this->height = 240;
+                $this->width = 170;
+            }
+            elseif ($_SESSION['nb_paires'] == 6){
+                $this->height = 250;
+                $this->width = 160;
+            }
+            //Si la $_SESSION plateau comprend 7 cartes ou moins
+            elseif($_SESSION['nb_paires'] <= 8){
+                $this->height = 210;
+                $this->width = 140;
+            }
+            //Si la $_SESSION plateau comprend plus de 7 cartes
+            elseif($_SESSION['nb_paires'] > 8){
+                $this->height = 200;
+                $this->width = 145;
+            }
+            //Si la $_SESSION plateau comprend plus de 9 cartes
+            elseif($_SESSION['nb_paires'] > 9){
+                $this->height = 200;
+                $this->width = 110;
+            }
         }
 
         /* Méthodes */
@@ -76,7 +84,7 @@
         // affichage de l'arrière de la carte
         public function displayBack(){
             ?>
-                <button type="submit" name="<?= $this->id?>" value="<?= $this->name ?>"><img src="./img/back.png" alt="dos de carte" height="<?= $this->height ?>" width="<?= $this->width?>" ></button>
+                <button type="submit" name="id" value="<?= $this->id ?>"><img src="./img/back.png" alt="dos de carte" height="<?= $this->height ?>" width="<?= $this->width?>" ></button>
             <?php
         }
 
@@ -106,7 +114,7 @@
 
         // Vérification qi la carte est retournée
         public function isFind(){
-            if($this->Card == $this->choice1 || $this->Card == $this->choice2 || in_array($this->Card, $this->find)){
+            if($this->id == $this->choice1['id'] || $this->id == $this->choice2['id'] || in_array($this->id, $this->find)){
                 return true;
             }
             else{
@@ -116,13 +124,18 @@
 
         // stockage des cartes choisies
         public function choice(){
-            if($this->choice1 == ''){
-                $_SESSION['choice1'] = $this->Card;
-                $this->choice1 = $this->Card;
+            if($this->choice1['id'] == ''){
+                $_SESSION['choice1']['id'] = $this->id;
+                $_SESSION['choice1']['Card'] = $this->Card;
+                $this->choice1['id'] = $this->id;
+                $this->choice1['Card'] = $this->Card;
+
             }
             else{
-                $_SESSION['choice2'] = $this->Card;
-                $this->choice2 = $this->Card;
+                $_SESSION['choice2']['id'] = $this->id;
+                $_SESSION['choice2']['Card'] = $this->Card;
+                $this->choice2['id'] = $this->id;
+                $this->choice2['Card'] = $this->Card;
             }
         }
     }

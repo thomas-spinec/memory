@@ -71,7 +71,14 @@ class User {
                     // préparation de la requête
                     $insert = $this->bdd -> prepare($requete2);
     
+
+                    // htmlspecialchars pour les paramètres
+                    $login = htmlspecialchars($login);
+                    $password = htmlspecialchars($password);
+                    $firstname = htmlspecialchars($firstname);
+                    $lastname = htmlspecialchars($lastname);
                     // exécution de la requête avec liaison des paramètres
+                    
                     $insert-> execute(array(
                         ':login' => $login,
                         ':password' => $password,
@@ -112,6 +119,10 @@ class User {
                 // préparation de la requête
                 $select = $this->bdd->prepare($requete);
 
+                // htmlspecialchars pour les paramètres
+                $login = htmlspecialchars($login);
+                $password = htmlspecialchars($password);
+
                 // exécution de la requête avec liaison des paramètres
                 $select-> execute(array(':login' => $login));
 
@@ -142,6 +153,9 @@ class User {
                             'lastname' => $fetch_assoc['lastname']
                         ];
                         // connexion réussie
+                        if(!isset($_SESSION['anonyme'])){
+                            header('Location: index.php');
+                        }
                     }
                     else{
                         $error = "Mot de passe incorrect";
@@ -229,6 +243,9 @@ class User {
                 // préparation de la requête
                 $select = $this->bdd->prepare($requete);
 
+                // htmlspecialchars pour les paramètres
+                $login = htmlspecialchars($login);
+
                 // exécution de la requête avec liaison des paramètres
                 $select-> execute(array(':login' => $login));
 
@@ -249,6 +266,12 @@ class User {
                     $requete2 = "UPDATE utilisateurs SET login = :login, password = :password, firstname = :firstname, lastname = :lastname WHERE id = :id";
                     // préparation de la requête
                     $update = $this->bdd->prepare($requete2);
+
+                    // htmlspecialchars pour les paramètres
+                    $password = htmlspecialchars($password);
+                    $firstname = htmlspecialchars($firstname);
+                    $lastname = htmlspecialchars($lastname);
+
                     // exécution de la requête avec liaison des paramètres
                     $update-> execute(array(
                         ':id' => $this->id,
@@ -365,6 +388,9 @@ class User {
 
         // préparation de la requête
         $select = $this->bdd->prepare($requete);
+
+        // htmlspecialchars pour les paramètres
+        $login = htmlspecialchars($login);
 
         // exécution de la requête avec liaison des paramètres
         $select-> execute(array(':login' => $login));

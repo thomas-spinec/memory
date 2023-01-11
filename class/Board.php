@@ -17,8 +17,6 @@
         private $Card12;
         private $Deck;
         private $find;
-        private $choice1;
-        private $choice2;
 
         /* Constructeur */
         public function __construct() 
@@ -37,19 +35,6 @@
             $this->Card12 = "./img/12";
             // Tableau contenant toutes les cartes
             $this->AllCard = array($this->Card1, $this->Card2, $this->Card3, $this->Card4, $this->Card5, $this->Card6, $this->Card7, $this->Card8, $this->Card9, $this->Card10, $this->Card11, $this->Card12);
-            // variable contenant les cartes retournées
-            if(isset($_SESSION['choice1'])){
-                $this->choice1 = $_SESSION['choice1'];
-            }
-            else{
-                $this->choice1 = "";
-            }
-            if(isset($_SESSION['choice2'])){
-                $this->choice2 = $_SESSION['choice2'];
-            }
-            else{
-                $this->choice2 = "";
-            }
             // Tableau contenant les cartes choisies/trouvées
             if(isset($_SESSION['find'])){
                 $this->find = $_SESSION['find'];
@@ -76,11 +61,15 @@
             $_SESSION['find']=[];
             // initialisation des cartes choisies
             unset($_SESSION['choice1']);
-            $_SESSION['choice1'] = "";
-            $this->choice1 = "";
+            $_SESSION['choice1'] = [
+                "id"=> "",
+                "Card"=>""
+            ];
             unset($_SESSION['choice2']);
-            $_SESSION['choice2'] = "";
-            $this->choice2 = "";
+            $_SESSION['choice2'] = [
+                "id"=> "",
+                "Card"=>""
+            ];
         }
 
         // tour +1
@@ -113,7 +102,7 @@
             // Récupération des cartes
             for ($i=0; isset($rand_keys[$i]); $i++) { 
                 $deck[] = $this->AllCard[$rand_keys[$i]].".png";
-                $deck[] = $this->AllCard[$rand_keys[$i]]."bis.png";
+                $deck[] = $this->AllCard[$rand_keys[$i]].".png";
             }
 
             // Mélange du deck
@@ -125,20 +114,24 @@
 
         // vérification des cartes choisies
         public function checkChoice(){
-            $carte1 = str_replace("bis", "", $this->choice1);
-            $carte2 = str_replace("bis", "", $this->choice2);
-            if($carte1 == $carte2){
+            $Card1 = $_SESSION['choice1']['Card'];
+            $Card2 = $_SESSION['choice2']['Card'];
+            if($Card1 == $Card2){
 
-                $_SESSION['find'][] = $this->choice1;
-                $this->find[] = $this->choice1;
-                $_SESSION['find'][] = $this->choice2;
-                $this->find[] = $this->choice2;
-                $_SESSION['choice1'] = '';
-                $_SESSION['choice2'] = '';
+                $_SESSION['find'][] = $_SESSION['choice1']['id'];
+                $this->find[] = $_SESSION['choice1']['id'];
+                $_SESSION['find'][] = $_SESSION['choice2']['id'];
+                $this->find[] = $_SESSION['choice2']['id'];
+                $_SESSION['choice1']['id'] = '';
+                $_SESSION['choice1']['Card'] = '';
+                $_SESSION['choice2']['id'] = '';
+                $_SESSION['choice2']['Card'] = '';
             }
             else{
-                $_SESSION['choice1'] = '';
-                $_SESSION['choice2'] = '';
+                $_SESSION['choice1']['id'] = '';
+                $_SESSION['choice1']['Card'] = '';
+                $_SESSION['choice2']['id'] = '';
+                $_SESSION['choice2']['Card'] = '';
             }
             if($this->checkEnd() == false){
                 $this->addTour();

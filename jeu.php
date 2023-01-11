@@ -10,9 +10,8 @@
         }
 
         // Vérification quand deux cartes ont été choisies
-        if($_SESSION['choice2'] != ""){
+        if($_SESSION['choice2']['id'] != ""){
             $plateau->checkChoice();
-            // header('Refresh: 1; URL=jeu.php');
         }
     ?>
         <!-- fin partie header -->
@@ -39,7 +38,7 @@
             <div id="fin">
                 <H2>Partie terminée!</H2>
                 <h3>Votre score*: <?= $score ?></h3>
-                <p>*Score = nombre paires (<?=$_SESSION['nb_paires']?>)/nombre coups (<?=$_SESSION['tour']?>)</p>
+                <p>*Score = nombre paires (<?=$_SESSION['nb_paires']?>) &divide; nombre coups (<?=$_SESSION['tour']?>)</p>
                 <!-- réinitialisation variable de jeu -->
                 <?php
                     $_SESSION['player']== "NewGame";
