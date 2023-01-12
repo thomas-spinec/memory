@@ -47,11 +47,11 @@
             }
 
             if($_SESSION['nb_paires'] <= 5){
-                $this->height = 240;
+                $this->height = 250;
                 $this->width = 170;
             }
             elseif ($_SESSION['nb_paires'] == 6){
-                $this->height = 250;
+                $this->height = 240;
                 $this->width = 160;
             }
             //Si la $_SESSION plateau comprend 7 cartes ou moins
@@ -93,14 +93,6 @@
             ?>
             <div class="carte">
                 <?php
-                    if ($_SESSION['nb_paires'] <= 6){
-                        for($i=0; $i<4; $i++){
-                            ?>
-                            <p> </p>
-                            <?php
-                        }
-                    }
-
                     if($this->isFind()){
                         $this->displayFront();
                     }
