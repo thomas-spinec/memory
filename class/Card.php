@@ -54,19 +54,19 @@
                 $this->height = 240;
                 $this->width = 160;
             }
-            //Si la $_SESSION plateau comprend 7 cartes ou moins
+            //Si la $_SESSION plateau comprend 8 cartes ou moins
             elseif($_SESSION['nb_paires'] <= 8){
                 $this->height = 210;
                 $this->width = 140;
             }
-            //Si la $_SESSION plateau comprend plus de 7 cartes
-            elseif($_SESSION['nb_paires'] > 8){
+            //Si la $_SESSION plateau comprend 9 cartes
+            elseif($_SESSION['nb_paires'] == 9){
                 $this->height = 200;
                 $this->width = 145;
             }
             //Si la $_SESSION plateau comprend plus de 9 cartes
             elseif($_SESSION['nb_paires'] > 9){
-                $this->height = 200;
+                $this->height = 180;
                 $this->width = 110;
             }
         }

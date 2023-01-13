@@ -63,6 +63,7 @@ class User {
                 // vérification des mots de passe
                 if($password === $password2){
                     // hachage du mot de passe
+                    $password = htmlspecialchars($password);
                     $password = password_hash($password, PASSWORD_DEFAULT);
     
                     // requête pour ajouter l'utilisateur dans la base de données
@@ -74,7 +75,6 @@ class User {
 
                     // htmlspecialchars pour les paramètres
                     $login = htmlspecialchars($login);
-                    $password = htmlspecialchars($password);
                     $firstname = htmlspecialchars($firstname);
                     $lastname = htmlspecialchars($lastname);
                     // exécution de la requête avec liaison des paramètres
