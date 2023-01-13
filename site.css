@@ -429,7 +429,12 @@ form input[type="submit"]:hover {
   width: 80%;
   margin: auto;
   background: linear-gradient(#0f0f0fd5, #202020c0, #0f0f0fd5);
-  padding-bottom: 10px;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
+  margin-bottom: 2%;
+  border-radius: 10px;
 }
 
 .profil h1 {
@@ -445,6 +450,10 @@ form input[type="submit"]:hover {
 .centrage {
   width: 100%;
   margin: auto;
+}
+
+.milieu {
+  text-align: center;
 }
 
 .infos {

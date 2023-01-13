@@ -458,7 +458,7 @@ class User {
     public function getScores()
     {
         // requête pour récupérer les scores de l'utilisateur connecté rangé de la plus grande paire à la plus petite
-        $requete = "SELECT * FROM scores where id_utilisateur = :id_utilisateur AND paires = :paires ORDER BY paires DESC";
+        $requete = "SELECT * FROM scores where id_utilisateur = :id_utilisateur AND paires = :paires ORDER BY coups DESC";
 
         // préparation de la requête
         $select = $this->bdd->prepare($requete);
@@ -479,6 +479,7 @@ class User {
                 <tr>
                     <th>Nombre de paires</th>
                     <th>Score</th>
+                    <th>Nombre de coups</th>
                 </tr>
             </thead>
             <tbody>
@@ -489,6 +490,7 @@ class User {
                     <tr>
                         <td><?= $table['paires']; ?></td>
                         <td><?= $score ?></td>
+                        <td><?= $table['coups']; ?></td>
                     </tr>
                     <?php
                 }
@@ -523,6 +525,7 @@ class User {
                     <th>Login</th>
                     <th>Nombre de paires</th>
                     <th>Score</th>
+                    <th>Nombre de coups</th>
                 </tr>
             </thead>
             <tbody>
@@ -534,6 +537,7 @@ class User {
                         <td><?= $table['login']; ?></td>
                         <td><?= $table['paires']; ?></td>
                         <td><?= $score ?></td>
+                        <td><?= $table['coups']; ?></td>
                     </tr>
                     <?php
                 }

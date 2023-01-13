@@ -26,6 +26,7 @@
                         <option value=12 >12</option>
                     <input type="submit" name="ano" value="Scores">
                 </form>
+                <p class="milieu">Score = nombre de paires &divide; nombre de coups</p>
                 <?php
                     if(empty($_GET)){
                         $_GET['nb_paires']=3;
